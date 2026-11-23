@@ -1,14 +1,9 @@
 import manifest from './component.json' with { type: 'json' };
-import { defineComponent, isDisplayed } from '../core/component.js';
-import { buildDirectionChartMarkers } from './build.js';
+import { defineComponent, isDisplayed } from '../../core/component.js';
+import { buildDirectionChartMarkers, markerComponents } from './build.js';
 
-export { buildDirectionChartMarkers };
+export { buildDirectionChartMarkers, markerComponents };
 
-/**
- * Draw markers on a candle series. The chart library's `createSeriesMarkers`
- * is passed in so this folder has no package dependencies. Returns the
- * markers handle to pass back on the next call.
- */
 export function renderChartMarkers(
 	{ series, createSeriesMarkers, handle = null },
 	markers,
@@ -24,5 +19,6 @@ export function renderChartMarkers(
 
 export default defineComponent(manifest, {
 	build: buildDirectionChartMarkers,
-	render: renderChartMarkers
+	render: renderChartMarkers,
+	markers: markerComponents
 });

@@ -6,7 +6,8 @@
 	"description": "Shared Metritrade components: each folder pairs a build routine with its component.json settings.",
 	"exports": {
 		"./core/*": "./core/*",
-		"./chart-markers": "./chart-markers/index.js",
+		"./chart/markers": "./chart/markers/index.js",
+		"./chart/markers/*": "./chart/markers/*/index.js",
 		"./breakout-watch": "./breakout-watch/index.js",
 		"./marker-chime": "./marker-chime/index.js"
 	}

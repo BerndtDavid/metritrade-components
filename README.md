@@ -12,15 +12,23 @@ Settings are JSON only: edit `component.json` and rebuild the app.
 
 - `build: false` — the routine is skipped and nothing is produced.
 - `display: false` — still computed (Summary/Status can use it) but not drawn on the chart.
-- Individual marker types also accept `display: false` inside `settings`.
 
 ## Components
 
-| id               | Purpose                                                                   |
-| ---------------- | ------------------------------------------------------------------------- |
-| `chart-markers`  | ENTRY/SELL/READY/GATED/P&L/SKIPPED markers for direction-score trades.    |
-| `breakout-watch` | BREAK / NO BREAK / BREAK FAIL watch after ENTRY, plus its dashed price line. |
-| `marker-chime`   | Browser tone for the newest closed ENTRY/EXIT.                            |
+| id                      | Folder                                 | Purpose                                                              |
+| ----------------------- | -------------------------------------- | -------------------------------------------------------------------- |
+| `chart-markers`         | `chart/markers/`                       | Marker set: drawing `order`, shown gates, money format, diagnostics. |
+| `marker-entry`          | `chart/markers/marker-entry/`          | BUY arrow and price; OVER/RISKY warning (`spike`).                   |
+| `marker-exit`           | `chart/markers/marker-exit/`           | SELL arrow.                                                          |
+| `marker-ready`          | `chart/markers/marker-ready/`          | READY square while a signal waits for confirmation.                  |
+| `marker-skip`           | `chart/markers/marker-skip/`           | PEAKED / PAUSED / HOURS / LIQUIDITY at suppressed entries.           |
+| `marker-skipped-result` | `chart/markers/marker-skipped-result/` | SKIPPED ±$ receipt at a skipped trade's would-be exit.               |
+| `marker-pnl`            | `chart/markers/marker-pnl/`            | Running ±$ P&L on open-trade candles.                                |
+| `marker-breakout`       | `chart/markers/marker-breakout/`       | BREAK / NO BREAK / BREAK FAIL squares.                               |
+| `breakout-watch`        | `breakout-watch/`                      | Breakout watch logic after ENTRY, plus its dashed price line.        |
+| `marker-chime`          | `marker-chime/`                        | Browser tone for the newest closed ENTRY/EXIT.                       |
+
+Each marker folder has `build.js` with one `mark(ctx, settings)` routine: for one candle it returns `{ text, color? }` or `null`. The set builds the marker from that marker's `position`, `shape`, `size` and `color`, in `order`, and draws all markers in one call. Set a marker's `display` (or `build`) to `false` to remove just that marker.
 
 `core/` holds `defineComponent`/`validateManifest`, the registry (`index.js` exports `components`), and `toLineStyle` (`solid`, `dotted`, `dashed`, `largeDashed`, `sparseDotted`).
 

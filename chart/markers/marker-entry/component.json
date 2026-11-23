@@ -1,0 +1,26 @@
+{
+	"id": "marker-entry",
+	"name": "Entry marker",
+	"version": "1.0.0",
+	"description": "Green BUY arrow with the entry price. Warning entries (OVER, RISKY) use spike.warningColor.",
+	"build": true,
+	"display": true,
+	"_comment": "Lightweight Charts marker options. position: aboveBar|belowBar|inBar. shape: arrowUp|arrowDown|circle|square. size: 0.5-2 recommended. build/display false removes this marker from the chart.",
+	"settings": {
+		"position": "belowBar",
+		"shape": "arrowUp",
+		"color": "#22c55e",
+		"label": "ENTRY",
+		"size": 0.75,
+		"spike": {
+			"build": true,
+			"windowCandles": 10,
+			"tailCandles": 3,
+			"minShare": 0.8,
+			"peakCandles": 5,
+			"dipPct": 0.1,
+			"warningColor": "#f59e0b",
+			"_comment": "Warns on suspicious BUY entry shapes, labeled by expectation: 'over' when the entry close is >dipPct below the highest close of the prior peakCandles (the move already ran \u2014 historically ~-$19 avg, gated by lateEntryGate), 'risky' when >=minShare of the move arrived in the final tailCandles (high variance, ~-$10 avg). Tagged markers use warningColor so a risky entry is visually distinct from a clean one."
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"id": "marker-skipped-result",
+	"name": "Skipped result marker",
+	"version": "1.0.0",
+	"description": "Marks where a skipped (NO-TRADE) position would have exited; text shows the would-be result. PEAKED/PAUSED receipts read SKIPPED in skippedColor, since green/red are reserved for real results.",
+	"build": true,
+	"display": true,
+	"_comment": "Lightweight Charts marker options. position: aboveBar|belowBar|inBar. shape: arrowUp|arrowDown|circle|square. size: 0.5-2 recommended. build/display false removes this marker from the chart.",
+	"settings": {
+		"position": "belowBar",
+		"shape": "circle",
+		"label": "X",
+		"size": 0.5,
+		"skippedLabel": "SKIPPED",
+		"skippedColor": "#9ca3af"
+	}
+}

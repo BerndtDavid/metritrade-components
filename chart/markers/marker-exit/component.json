@@ -1,0 +1,16 @@
+{
+	"id": "marker-exit",
+	"name": "Exit marker",
+	"version": "1.0.0",
+	"description": "Red SELL arrow. Summary also uses this label.",
+	"build": true,
+	"display": true,
+	"_comment": "Lightweight Charts marker options. position: aboveBar|belowBar|inBar. shape: arrowUp|arrowDown|circle|square. size: 0.5-2 recommended. build/display false removes this marker from the chart.",
+	"settings": {
+		"position": "aboveBar",
+		"shape": "arrowDown",
+		"color": "#ef4444",
+		"label": "SELL",
+		"size": 0.75
+	}
+}

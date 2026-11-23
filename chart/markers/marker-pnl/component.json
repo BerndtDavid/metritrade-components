@@ -1,0 +1,17 @@
+{
+	"id": "marker-pnl",
+	"name": "P&L marker",
+	"version": "1.0.0",
+	"description": "Running +/-$ P&L above each candle of an open trade. Its colors are also used for diagnostic skipped results.",
+	"build": true,
+	"display": true,
+	"_comment": "Lightweight Charts marker options. position: aboveBar|belowBar|inBar. shape: arrowUp|arrowDown|circle|square. size: 0.5-2 recommended. build/display false removes this marker from the chart.",
+	"settings": {
+		"position": "aboveBar",
+		"shape": "circle",
+		"positiveColor": "#22c55e",
+		"negativeColor": "#ef4444",
+		"zeroColor": "#94a3b8",
+		"size": 0.5
+	}
+}

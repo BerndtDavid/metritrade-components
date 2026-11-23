@@ -1,0 +1,26 @@
+{
+	"id": "marker-skip",
+	"name": "Skip marker",
+	"version": "1.0.0",
+	"description": "Entry suppressed by a gate: amber PEAKED (late entry, lateColor), gray PAUSED, HOURS, LIQUIDITY. Other gate reasons only show with showDiagnostics.",
+	"build": true,
+	"display": true,
+	"_comment": "Lightweight Charts marker options. position: aboveBar|belowBar|inBar. shape: arrowUp|arrowDown|circle|square. size: 0.5-2 recommended. build/display false removes this marker from the chart.",
+	"settings": {
+		"position": "belowBar",
+		"shape": "circle",
+		"color": "#9ca3af",
+		"label": "NO-TRADE",
+		"size": 0.5,
+		"lateColor": "#f59e0b",
+		"labels": {
+			"range": "NO-ACT",
+			"wait": "NO-WAIT",
+			"premium": "NO-CHASE",
+			"liquidity": "LIQUIDITY",
+			"hours": "HOURS",
+			"late": "PEAKED",
+			"cooldown": "PAUSED"
+		}
+	}
+}

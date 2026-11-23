@@ -1,0 +1,16 @@
+{
+	"id": "marker-ready",
+	"name": "Ready marker",
+	"version": "1.0.0",
+	"description": "Signal armed \u2014 waiting for a positive candle to confirm the fill.",
+	"build": true,
+	"display": true,
+	"_comment": "Lightweight Charts marker options. position: aboveBar|belowBar|inBar. shape: arrowUp|arrowDown|circle|square. size: 0.5-2 recommended. build/display false removes this marker from the chart.",
+	"settings": {
+		"position": "aboveBar",
+		"shape": "square",
+		"color": "#60a5fa",
+		"label": "READY",
+		"size": 0.35
+	}
+}
