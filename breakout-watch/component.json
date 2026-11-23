@@ -1,0 +1,30 @@
+{
+	"id": "breakout-watch",
+	"name": "Breakout watch",
+	"version": "1.0.0",
+	"description": "Display-only. After a BUY, BREAK marks the first candle whose high reaches entry close +pct% within `candles` candles; NO BREAK marks the last watch candle when none did (historically ~13% of those trades won vs ~55% for BREAK). BREAK FAIL replaces BREAK when that candle closes back at or below the entry close: historically BREAK ~+$193 avg / 61% win vs BREAK FAIL ~-$74 / 27% (a caution label; selling on it lost money). A dashed watch line shows the target while the watch is open. Does not change trades, P/L, Status or Telegram.",
+	"build": true,
+	"display": true,
+	"_comment": "build: false removes the watch everywhere (chart, Status Event column, Summary BRK column and what-ifs). display: false keeps Status/Summary but hides the chart markers and watch line.",
+	"settings": {
+		"pct": 0.1,
+		"candles": 2,
+		"position": "belowBar",
+		"shape": "square",
+		"size": 0.75,
+		"color": "#22c55e",
+		"label": "BREAK",
+		"missColor": "#f59e0b",
+		"missLabel": "NO BREAK",
+		"failColor": "#f59e0b",
+		"failLabel": "BREAK FAIL",
+		"line": {
+			"display": true,
+			"color": "#a3e635",
+			"lineStyle": "dashed",
+			"lineWidth": 1,
+			"title": "Watch +{pct}%",
+			"_comment": "lineStyle: solid|dotted|dashed|largeDashed|sparseDotted. {pct} in title is replaced by settings.pct."
+		}
+	}
+}

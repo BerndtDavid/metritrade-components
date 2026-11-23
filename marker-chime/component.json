@@ -1,0 +1,21 @@
+{
+	"id": "marker-chime",
+	"name": "Marker chime",
+	"version": "1.0.0",
+	"description": "Local browser chime when an ENTRY or SELL marker first appears on the newest closed candle. Phone pushes are owned by the Apps Script sheet relay (BravoStatusPoller \u2192 Telegram); browsers never push, so multiple viewers don't duplicate messages.",
+	"build": true,
+	"_comment": "build: false turns the chime off. The Notify toggle (alert-muted) still mutes it per browser. frequency in Hz, duration and maxAgeSeconds in seconds.",
+	"settings": {
+		"maxAgeSeconds": 120,
+		"waveform": "sine",
+		"gain": 0.15,
+		"entry": {
+			"frequency": 880,
+			"duration": 0.18
+		},
+		"exit": {
+			"frequency": 440,
+			"duration": 0.25
+		}
+	}
+}
