@@ -11,6 +11,8 @@ import markerPnl from './marker-pnl/index.js';
 import markerBreakout from './marker-breakout/index.js';
 import { pnlColorFor } from './marker-pnl/build.js';
 
+const asComponent = (marker) => defineComponent(marker.manifest, { mark: marker.mark });
+
 export const availableMarkers = [
 	markerSkippedResult,
 	markerEntry,
@@ -19,24 +21,27 @@ export const availableMarkers = [
 	markerSkip,
 	markerPnl,
 	markerBreakout
-];
+].map(asComponent);
 
 /**
  * Resolve the app's instructions: `order` lists the marker ids to call, in
  * drawing order; `overrides` maps a component id (a marker or
  * "chart-markers") to { build?, display?, settings? } merged over its
- * component.json.
+ * component.json; `components` are app-supplied marker components (e.g. an
+ * npm package) that replace the built-in one with the same id.
  */
-export function createMarkerSet({ order, overrides = {} } = {}) {
+export function createMarkerSet({ order, overrides = {}, components = [] } = {}) {
 	if (!Array.isArray(order)) {
 		throw new Error('chart-markers needs an `order` list of marker ids from the app');
 	}
-	const known = new Set([manifest.id, ...availableMarkers.map((marker) => marker.id)]);
+	const sources = new Map(availableMarkers.map((marker) => [marker.id, marker]));
+	for (const marker of components) sources.set(marker.id, asComponent(marker));
+	const known = new Set([manifest.id, ...sources.keys()]);
 	const unknown = Object.keys(overrides).find((id) => !id.startsWith('_') && !known.has(id));
 	if (unknown) throw new Error(`Unknown component "${unknown}" in chart-markers overrides`);
 
 	const byId = new Map(
-		availableMarkers.map((marker) => [
+		[...sources.values()].map((marker) => [
 			marker.id,
 			defineComponent(applyOverride(marker.manifest, overrides[marker.id]), { mark: marker.mark })
 		])

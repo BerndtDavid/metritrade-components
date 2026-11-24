@@ -1,0 +1,23 @@
+{
+	"name": "@berndtdavid/metritrade-marker-exit",
+	"version": "1.1.0",
+	"description": "Metritrade SELL arrow chart marker: mark(ctx, settings) routine plus its component.json settings.",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/BerndtDavid/metritrade-components.git",
+		"directory": "chart/markers/marker-exit"
+	},
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com"
+	},
+	"files": [
+		"index.js",
+		"build.js",
+		"component.json"
+	],
+	"exports": {
+		".": "./index.js",
+		"./component.json": "./component.json"
+	}
+}

@@ -1,5 +1,5 @@
 import manifest from './component.json' with { type: 'json' };
-import { defineComponent } from '../../../core/component.js';
 import { markExit } from './build.js';
 
-export default defineComponent(manifest, { mark: markExit });
+// Self-contained so it can be published on its own; the marker set validates it.
+export default { id: manifest.id, manifest, mark: markExit };

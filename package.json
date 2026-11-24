@@ -1,6 +1,6 @@
 {
 	"name": "@berndtdavid/metritrade-components",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"description": "Shared Metritrade components: each folder pairs a build routine with its component.json settings.",
 	"type": "module",
 	"repository": {
