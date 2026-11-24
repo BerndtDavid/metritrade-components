@@ -1,7 +1,7 @@
 {
 	"id": "marker-skip",
 	"name": "Skip marker",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Entry suppressed by a gate: amber PEAKED (late entry, lateColor), gray PAUSED, HOURS, LIQUIDITY. Other gate reasons only show with showDiagnostics.",
 	"build": true,
 	"display": true,

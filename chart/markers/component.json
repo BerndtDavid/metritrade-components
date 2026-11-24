@@ -1,21 +1,12 @@
 {
 	"id": "chart-markers",
 	"name": "Chart markers",
-	"version": "2.0.0",
-	"description": "Marker set for Bravo trades. Runs each marker component in `order` on every candle and draws all results in one call.",
+	"version": "2.1.0",
+	"description": "Marker set for Bravo trades. The app calls createChartMarkers({ order, overrides }) to choose which marker components run, in drawing order; all results are drawn in one call.",
 	"build": true,
 	"display": true,
-	"_comment": "order is the drawing order on each candle. Each marker type has its own component.json in chart/markers/marker-*. shownGates are the skip reasons drawn without showDiagnostics.",
+	"_comment": "Each marker type has its own component.json in chart/markers/marker-*. The drawing order and per-app overrides come from the app. shownGates are the skip reasons drawn without showDiagnostics.",
 	"settings": {
-		"order": [
-			"marker-skipped-result",
-			"marker-entry",
-			"marker-exit",
-			"marker-ready",
-			"marker-skip",
-			"marker-pnl",
-			"marker-breakout"
-		],
 		"shownGates": ["late", "cooldown", "hours", "liquidity"],
 		"money": {
 			"decimals": 0,

@@ -1,7 +1,7 @@
 {
 	"id": "marker-skipped-result",
 	"name": "Skipped result marker",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Marks where a skipped (NO-TRADE) position would have exited; text shows the would-be result. PEAKED/PAUSED receipts read SKIPPED in skippedColor, since green/red are reserved for real results.",
 	"build": true,
 	"display": true,

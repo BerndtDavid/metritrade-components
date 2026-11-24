@@ -1,7 +1,7 @@
 {
 	"id": "marker-breakout",
 	"name": "Breakout marker",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "BREAK / NO BREAK / BREAK FAIL squares from the breakout-watch component. Hidden when breakout-watch display is false. Summary also uses these labels.",
 	"build": true,
 	"display": true,

@@ -1,5 +1,6 @@
 import manifest from './component.json' with { type: 'json' };
-import { isBuilt } from '../../core/component.js';
+import { defineComponent, isBuilt } from '../../core/component.js';
+import { applyOverride } from '../../core/overrides.js';
 import breakoutWatch, { buildBreakoutWatch } from '../../breakout-watch/index.js';
 import markerSkippedResult from './marker-skipped-result/index.js';
 import markerEntry from './marker-entry/index.js';
@@ -10,43 +11,70 @@ import markerPnl from './marker-pnl/index.js';
 import markerBreakout from './marker-breakout/index.js';
 import { pnlColorFor } from './marker-pnl/build.js';
 
-const settings = manifest.settings;
-const available = new Map(
-	[
-		markerSkippedResult,
-		markerEntry,
-		markerExit,
-		markerReady,
-		markerSkip,
-		markerPnl,
-		markerBreakout
-	].map((marker) => [marker.id, marker])
-);
+export const availableMarkers = [
+	markerSkippedResult,
+	markerEntry,
+	markerExit,
+	markerReady,
+	markerSkip,
+	markerPnl,
+	markerBreakout
+];
 
-export const markerComponents = settings.order.map((id) => {
-	const marker = available.get(id);
-	if (!marker) throw new Error(`Unknown marker component "${id}" in chart-markers order`);
-	return marker;
-});
+/**
+ * Resolve the app's instructions: `order` lists the marker ids to call, in
+ * drawing order; `overrides` maps a component id (a marker or
+ * "chart-markers") to { build?, display?, settings? } merged over its
+ * component.json.
+ */
+export function createMarkerSet({ order, overrides = {} } = {}) {
+	if (!Array.isArray(order)) {
+		throw new Error('chart-markers needs an `order` list of marker ids from the app');
+	}
+	const known = new Set([manifest.id, ...availableMarkers.map((marker) => marker.id)]);
+	const unknown = Object.keys(overrides).find((id) => !id.startsWith('_') && !known.has(id));
+	if (unknown) throw new Error(`Unknown component "${unknown}" in chart-markers overrides`);
+
+	const byId = new Map(
+		availableMarkers.map((marker) => [
+			marker.id,
+			defineComponent(applyOverride(marker.manifest, overrides[marker.id]), { mark: marker.mark })
+		])
+	);
+	const markers = order.map((id) => {
+		const marker = byId.get(id);
+		if (!marker) throw new Error(`Unknown marker component "${id}" in chart-markers order`);
+		return marker;
+	});
+	return {
+		manifest: applyOverride(manifest, overrides[manifest.id]),
+		markers,
+		marker: (id) => byId.get(id)
+	};
+}
 
 /**
  * Build lightweight-charts markers from the direction trade state.
  *
+ * @param {ReturnType<typeof createMarkerSet>} markerSet
  * @param {Array<Object>} rows chronological rows from buildDirectionCandleStatusRows
  * @param {Map<number, {pnl:number|null, event:string|null}>} tradeStateByTime
  * @returns {Array<{time:number, position:string, shape:string, color:string, size?:number, text:string}>}
  */
-export function buildDirectionChartMarkers(
+export function buildChartMarkers(
+	markerSet,
 	rows,
 	tradeStateByTime,
 	{
-		showDiagnostics = settings.showDiagnostics,
-		showSpike = markerEntry.settings.spike?.build !== false,
+		showDiagnostics = markerSet.manifest.settings.showDiagnostics,
+		showSpike = markerSet.marker('marker-entry').settings.spike?.build !== false,
 		showBreakoutWatch = breakoutWatch.displayed
 	} = {}
 ) {
 	const markers = [];
-	if (!isBuilt(manifest)) return markers;
+	if (!isBuilt(markerSet.manifest)) return markers;
+	const settings = markerSet.manifest.settings;
+	const pnl = markerSet.marker('marker-pnl').settings;
 	const watchByTime = showBreakoutWatch
 		? buildBreakoutWatch(rows, tradeStateByTime, breakoutWatch.settings).byTime
 		: new Map();
@@ -55,7 +83,7 @@ export function buildDirectionChartMarkers(
 		const rounded = Number(value.toFixed(decimals));
 		return `${rounded >= 0 ? '+' : '-'}$${Math.abs(rounded).toFixed(decimals)}`;
 	};
-	const shown = markerComponents.filter((marker) => marker.displayed);
+	const shown = markerSet.markers.filter((marker) => marker.displayed);
 	const base = {
 		rows,
 		showDiagnostics,
@@ -63,8 +91,8 @@ export function buildDirectionChartMarkers(
 		watchByTime,
 		shownGates: new Set(settings.shownGates),
 		dollars,
-		pnlColor: pnlColorFor(markerPnl.settings),
-		zeroColor: markerPnl.settings.zeroColor,
+		pnlColor: pnlColorFor(pnl),
+		zeroColor: pnl.zeroColor,
 		priceDecimals
 	};
 
@@ -74,7 +102,7 @@ export function buildDirectionChartMarkers(
 		if (!state) continue;
 		const ctx = { ...base, index, row, state };
 		for (const marker of shown) {
-			const result = marker.mark(ctx);
+			const result = marker.mark(ctx, marker.settings);
 			if (!result) continue;
 			const style = marker.settings;
 			markers.push({

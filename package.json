@@ -1,10 +1,25 @@
 {
-	"name": "@metritrade/components",
-	"version": "0.1.0",
-	"private": true,
-	"type": "module",
+	"name": "@berndtdavid/metritrade-components",
+	"version": "2.1.0",
 	"description": "Shared Metritrade components: each folder pairs a build routine with its component.json settings.",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/BerndtDavid/metritrade-components.git"
+	},
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com"
+	},
+	"files": [
+		"core",
+		"chart",
+		"breakout-watch",
+		"marker-chime",
+		"index.js",
+		"README.md"
+	],
 	"exports": {
+		".": "./index.js",
 		"./core/*": "./core/*",
 		"./chart/markers": "./chart/markers/index.js",
 		"./chart/markers/*": "./chart/markers/*/index.js",
