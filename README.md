@@ -32,11 +32,20 @@ Each marker folder has `build.js` with one `mark(ctx, settings)` routine: for on
 
 `core/` holds `defineComponent`/`validateManifest`, the registry (`index.js` exports `components`), and `toLineStyle` (`solid`, `dotted`, `dashed`, `largeDashed`, `sparseDotted`).
 
-## Using it from an app
+## Packages
 
-Apps reference this folder directly via an alias, e.g. `$components: '../../shared/components'` in `aliases.js`, plus the folder in Vite `server.fs.allow`. Chart-library functions (e.g. `createSeriesMarkers`) are passed in by the app, so this package has no dependencies.
+Published to GitHub Packages (`@berndtdavid` scope, registry `https://npm.pkg.github.com`) from npm workspaces in this repo:
 
-Tests live in the consuming app (`tests/unit/components/` in the Metritrade ETF app).
+| Package                           | Folder           | Depends on                        |
+| --------------------------------- | ---------------- | --------------------------------- |
+| `@berndtdavid/metritrade-core`    | `core/`          | —                                 |
+| `@berndtdavid/metritrade-markers` | `chart/markers/` | `@berndtdavid/metritrade-core` ^1 |
+
+`core` only checks manifests and merges overrides when components are set up; marker routines never call it while drawing. `breakout-watch` and `marker-chime` are not packaged yet: apps use them from this folder via an alias (`$components: '../../shared/components'` plus Vite `server.fs.allow`), and they import `core` by relative path.
+
+The markers package does not run breakout-watch. The app runs it and passes the per-candle result: `chartMarkers.build(rows, stateByTime, { watchByTime })`; without `watchByTime` no BREAK markers are drawn.
+
+Chart-library functions (e.g. `createSeriesMarkers`) are passed in by the app, so the packages have no chart dependency. Tests live in the consuming app (`tests/unit/components/` in metritrade-app).
 
 ## Apps choose what is called
 
@@ -56,6 +65,6 @@ An override may set `build`, `display` and `settings` (deep-merged over `compone
 
 ## Versions
 
-Releases are annotated git tags (`v1.0.0`, `v2.0.0`, `v2.1.0`, …). Each app names the tag it was tested with (Metritrade: `components.json` in the app root) and its dev server, build and tests warn when this folder is at a different commit or has uncommitted changes.
+Each package follows semver in its own `package.json`; each `component.json` keeps its own `version` to show which component changed. Apps pin exact versions in their lockfile.
 
-To release: commit here, `git tag -a vX.Y.Z -m "…"`, then update each app's pin once its tests pass on the new tag.
+To release: raise the version(s), commit, tag `<package>-vX.Y.Z` (e.g. `markers-v1.1.0`), run `npm publish -w chart/markers` (and/or `-w core`), then `npm install @berndtdavid/metritrade-markers@X.Y.Z` in each app once its tests pass. For an unpublished change, `npm link` the package into the app.

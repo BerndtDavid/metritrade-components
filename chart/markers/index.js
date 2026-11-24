@@ -1,5 +1,5 @@
 import manifest from './component.json' with { type: 'json' };
-import { defineComponent, isDisplayed } from '../../core/component.js';
+import { defineComponent, isDisplayed } from '@berndtdavid/metritrade-core/component.js';
 import { availableMarkers, buildChartMarkers, createMarkerSet } from './build.js';
 
 export { availableMarkers };

@@ -1,7 +1,6 @@
 import manifest from './component.json' with { type: 'json' };
-import { defineComponent, isBuilt } from '../../core/component.js';
-import { applyOverride } from '../../core/overrides.js';
-import breakoutWatch, { buildBreakoutWatch } from '../../breakout-watch/index.js';
+import { defineComponent, isBuilt } from '@berndtdavid/metritrade-core/component.js';
+import { applyOverride } from '@berndtdavid/metritrade-core/overrides.js';
 import markerSkippedResult from './marker-skipped-result/index.js';
 import markerEntry from './marker-entry/index.js';
 import markerExit from './marker-exit/index.js';
@@ -64,6 +63,8 @@ export function createMarkerSet({ order, overrides = {}, components = [] } = {})
  * @param {ReturnType<typeof createMarkerSet>} markerSet
  * @param {Array<Object>} rows chronological rows from buildDirectionCandleStatusRows
  * @param {Map<number, {pnl:number|null, event:string|null}>} tradeStateByTime
+ * @param {{watchByTime?: Map<number, Object>}} options watchByTime: the app's breakout-watch
+ *   result per candle (for marker-breakout); omitted means no BREAK markers.
  * @returns {Array<{time:number, position:string, shape:string, color:string, size?:number, text:string}>}
  */
 export function buildChartMarkers(
@@ -73,16 +74,13 @@ export function buildChartMarkers(
 	{
 		showDiagnostics = markerSet.manifest.settings.showDiagnostics,
 		showSpike = markerSet.marker('marker-entry').settings.spike?.build !== false,
-		showBreakoutWatch = breakoutWatch.displayed
+		watchByTime = new Map()
 	} = {}
 ) {
 	const markers = [];
 	if (!isBuilt(markerSet.manifest)) return markers;
 	const settings = markerSet.manifest.settings;
 	const pnl = markerSet.marker('marker-pnl').settings;
-	const watchByTime = showBreakoutWatch
-		? buildBreakoutWatch(rows, tradeStateByTime, breakoutWatch.settings).byTime
-		: new Map();
 	const { decimals, priceDecimals } = settings.money;
 	const dollars = (value) => {
 		const rounded = Number(value.toFixed(decimals));

@@ -1,7 +1,7 @@
 {
 	"id": "chart-markers",
 	"name": "Chart markers",
-	"version": "2.1.0",
+	"version": "3.0.0",
 	"description": "Marker set for Bravo trades. The app calls createChartMarkers({ order, overrides }) to choose which marker components run, in drawing order; all results are drawn in one call.",
 	"build": true,
 	"display": true,

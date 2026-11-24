@@ -1,0 +1,31 @@
+{
+	"name": "@berndtdavid/metritrade-markers",
+	"version": "1.0.0",
+	"description": "Metritrade chart markers: the marker set (createChartMarkers) plus entry, exit, ready, skip, skipped-result, pnl and breakout markers, each with its component.json settings.",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/BerndtDavid/metritrade-components.git",
+		"directory": "chart/markers"
+	},
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com"
+	},
+	"dependencies": {
+		"@berndtdavid/metritrade-core": "^1.0.0"
+	},
+	"files": [
+		"index.js",
+		"build.js",
+		"component.json",
+		"marker-*/index.js",
+		"marker-*/build.js",
+		"marker-*/component.json"
+	],
+	"exports": {
+		".": "./index.js",
+		"./component.json": "./component.json",
+		"./*": "./*/index.js",
+		"./*/component.json": "./*/component.json"
+	}
+}

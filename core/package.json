@@ -1,0 +1,26 @@
+{
+	"name": "@berndtdavid/metritrade-core",
+	"version": "1.0.0",
+	"description": "Metritrade component core: manifest checks (defineComponent, isBuilt, isDisplayed), override merging, line styles and registry.",
+	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/BerndtDavid/metritrade-components.git",
+		"directory": "core"
+	},
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com"
+	},
+	"files": [
+		"component.js",
+		"overrides.js",
+		"lineStyle.js",
+		"registry.js"
+	],
+	"exports": {
+		"./component.js": "./component.js",
+		"./overrides.js": "./overrides.js",
+		"./lineStyle.js": "./lineStyle.js",
+		"./registry.js": "./registry.js"
+	}
+}
